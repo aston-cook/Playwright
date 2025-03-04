@@ -1,0 +1,13 @@
+{
+    "name": "playwright-google-smoke-tests",
+    "version": "1.0.0",
+    "description": "Playwright automation for Google smoke tests using POM",
+    "scripts": {
+      "test": "npx playwright test",
+      "report": "npx playwright show-report"
+    },
+    "dependencies": {
+      "@playwright/test": "^1.40.0"
+    }
+  }
+  
