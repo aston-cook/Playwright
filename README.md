@@ -1,6 +1,6 @@
 # Playwright Google Smoke Tests  
 
-![CI/CD Status](https://github.com/aston-cook/playwright-google-smoke-tests/actions/workflows/playwright-tests.yml/badge.svg) 
+![CI/CD Status](https://github.com/aston-cook/Playwrite/actions/workflows/playwright-tests.yml/badge.svg?branch=develop)
 
 This project automates smoke tests for Google.com using **Playwright** with the **Page Object Model (POM)**. It includes automated tests for **Google Search, Google Images, and Google Maps**, ensuring core functionalities work correctly.  
 
