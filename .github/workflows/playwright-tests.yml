@@ -17,10 +17,13 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18  # Ensure compatibility with Playwright
+          node-version: 18
 
       - name: Install dependencies
         run: npm install
+
+      - name: Fix Permissions
+        run: chmod +x node_modules/.bin/playwright
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
