@@ -1,7 +1,7 @@
 import { Page, expect } from "@playwright/test";
 
 export class GoogleMapsPage {
-  constructor(private page: Page) {}
+  constructor(private page: Page) { }
 
   async navigate() {
     await this.page.goto("https://maps.google.com");

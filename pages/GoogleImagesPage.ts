@@ -1,7 +1,7 @@
 import { Page, expect } from "@playwright/test";
 
 export class GoogleImagesPage {
-  constructor(private page: Page) {}
+  constructor(private page: Page) { }
 
   async navigate() {
     await this.page.goto("https://images.google.com");
@@ -13,7 +13,6 @@ export class GoogleImagesPage {
   }
 
   async verifyResults() {
-    // Adjusted to match "&sclient=img" instead of "tbm=isch"
     await expect(this.page).toHaveURL(/.*sclient=img.*/);
   }
 }
