@@ -15,4 +15,16 @@ export class GoogleImagesPage {
   async verifyResults() {
     await expect(this.page).toHaveURL(/.*sclient=img.*/);
   }
+
+  async verifyImagePageLoad() {
+    await this.page.waitForSelector('textarea[name="q"]');
+  }
+
+  async typeInSearchBox(searchTerm: string) {
+    await this.page.fill('textarea[name="q"]', searchTerm);
+  }
+
+  async verifySearchSuggestions() {
+    await this.page.waitForSelector('[data-attrid="AutocompletePrediction"]');
+  }
 }

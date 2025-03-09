@@ -9,4 +9,17 @@ test.describe("Google Maps Tests", () => {
     await googleMaps.searchLocation(LOCATION);
     await googleMaps.verifyLocation();
   });
+
+  test("Google Maps Page Loads", async ({ page }) => {
+    const googleMaps = new GoogleMapsPage(page);
+    await googleMaps.navigate();
+    await googleMaps.verifyMapsPageLoad();
+  });
+
+  test("Verify Search Suggestions Appear For Maps", async ({ page }) => {
+    const googleMaps = new GoogleMapsPage(page);
+    await googleMaps.navigate();
+    await googleMaps.typeInSearchBox(LOCATION);
+    await googleMaps.verifySearchSuggestions();
+  });
 });
