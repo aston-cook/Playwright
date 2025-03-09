@@ -7,7 +7,11 @@ export class GoogleHomePage {
     await this.page.goto("https://www.google.com");
   }
 
-  async verifyPage() {
+  async verifySearchPageLoad() {
     await expect(this.page.locator("textarea[name='q']")).toBeVisible();
+  }
+
+  async typeInSearchBox(searchTerm: string) {
+    await this.page.fill('textarea[name="q"]', searchTerm);
   }
 }

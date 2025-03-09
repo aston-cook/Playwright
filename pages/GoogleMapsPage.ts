@@ -15,4 +15,16 @@ export class GoogleMapsPage {
   async verifyLocation() {
     await expect(this.page.locator("canvas").first()).toBeVisible();
   }
+
+  async verifyMapsPageLoad() {
+    await this.page.waitForSelector('input#searchboxinput');
+  }
+
+  async typeInSearchBox(location: string) {
+    await this.page.fill('input#searchboxinput', location);
+  }
+
+  async verifySearchSuggestions() {
+    await this.page.waitForSelector('[jsaction="suggestion.select"]');
+  }
 }
