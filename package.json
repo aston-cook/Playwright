@@ -1,13 +1,19 @@
 {
-    "name": "playwright-google-smoke-tests",
-    "version": "1.0.0",
-    "description": "Playwright automation for Google smoke tests using POM",
-    "scripts": {
-      "test": "npx playwright test",
-      "report": "npx playwright show-report"
-    },
-    "dependencies": {
-      "@playwright/test": "^1.40.0"
-    }
+  "name": "playwright-google-smoke-tests",
+  "version": "1.0.0",
+  "description": "Playwright automation for Google smoke tests using POM",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:grep": "cross-env GREP=@smoke playwright test",
+    "report": "playwright show-report"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.40.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "cross-env": "^7.0.3"
   }
-  
+}
