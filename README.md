@@ -1,42 +1,65 @@
 # Playwright Google Smoke Tests  
 
-![CI/CD Status](https://github.com/aston-cook/Playwrite/actions/workflows/playwright-tests.yml/badge.svg?branch=develop)
+![CI](https://github.com/aston-cook/Playwright/actions/workflows/playwright.yml/badge.svg)
 
-This project automates smoke tests for Google.com using **Playwright** with the **Page Object Model (POM)**. It includes automated tests for **Google Search, Google Images, and Google Maps**, ensuring core functionalities work correctly.  
+Automated smoke tests for Google using Playwright. Suite covers search, images, and maps. Includes CI, HTML reports, artifacts, and a safe fallback plan when Google shows anti-bot interstitials. 
 
-## 🚀 Features  
-✅ **Playwright for automation** – Fast and reliable browser testing.  
-✅ **Page Object Model (POM)** – Structured, maintainable, and reusable test code.  
-✅ **CI/CD with GitHub Actions** – Automatically runs tests on every push and pull request.  
-✅ **Test Reports** – Generates HTML reports for debugging test results.  
+---
+
+## Quick start
+
+```bash
+npm ci
+npx playwright install --with-deps
+npm test
+npm run report
+```
+
+## Useful local flags:
+```bash
+# Reduce anti-bot triggers locally
+npx playwright test --workers=1 --project=Chromium --headed
+# Allow CI to skip when Google blocks automation
+ALLOW_GOOGLE_SKIP=1 npx playwright test
+```
+
+
+## What this repo shows 
+Real browsers on a matrix: Chromium, Firefox, WebKit, plus a light mobile check.
+
+Stable selectors and consent handling for google.com, with a DuckDuckGo fallback only if blocked.
+
+CI artifacts on every run: HTML report, traces, and videos on failure.
+
+Clean structure with Page Object Model for readability and reuse.
 
 ---
 
 ## 📂 Project Structure  
 
 ```
-playwright-google-smoke-tests/
-│── tests/                  # Test files using Playwright
-│   ├── search.test.ts       # Google Search test
-│   ├── images.test.ts       # Google Images test
-│   ├── maps.test.ts         # Google Maps test
-│── pages/                  # Page Objects for POM structure
-│   ├── GoogleHomePage.ts    
-│   ├── GoogleImagesPage.ts  
-│   ├── GoogleMapsPage.ts    
-│── utils/                  # Utility files for config values
-│   ├── testConfig.ts        
-│── .github/workflows/       # GitHub Actions CI/CD workflow
-│   ├── playwright-tests.yml  
-│── playwright.config.ts     # Playwright configuration
-│── package.json            # Dependencies and scripts
-│── README.md               # Project documentation
-│── .gitignore              # Ignored files
+.
+├─ tests/                     # Specs
+│  ├─ search.test.ts          # Google Search smoke
+│  ├─ images.test.ts          # Google Images smoke
+│  ├─ maps.test.ts            # Google Maps smoke
+│  └─ google.search.spec.ts   # Robust multi-browser suite with fallback
+├─ pages/                     # Page Objects
+│  ├─ GoogleHomePage.ts
+│  ├─ GoogleImagesPage.ts
+│  └─ GoogleMapsPage.ts
+├─ tests/utils/
+│  └─ google.ts               # Consent helpers, selectors, guard utilities
+├─ .github/workflows/
+│  └─ playwright.yml          # GitHub Actions workflow
+├─ playwright.config.ts
+└─ package.json
+
 ```
 
 ---
 
-## 🔧 Setup & Installation  
+## Setup & Installation  
 
 ### **1️⃣ Prerequisites**  
 Ensure you have the following installed:  
@@ -64,54 +87,32 @@ npx playwright install --with-deps
 ## ▶️ Running the Tests  
 
 ### **Run All Tests**
-```sh
+```bash
 npx playwright test
 ```
 
-### **Run a Specific Test**
-```sh
-npx playwright test tests/search.test.ts
+### **Run only smoke**
+```bash
+npx playwright test -g @smoke --workers=1
 ```
 
-### **View Test Reports**  
-Playwright generates an HTML test report that you can view:  
-```sh
+### **View Test Reports**   
+```bash
 npx playwright show-report
 ```
+---
+
+## CI/CD Integration with GitHub Actions  
+
+GitHub Actions runs on every push and pull request. It installs browsers, runs the full matrix, uploads the HTML report, and keeps traces and videos for failures. The ALLOW_GOOGLE_SKIP environment variable is enabled in CI so rate limits do not fail your build.
 
 ---
 
-## 🧪 Test Cases  
-
-### **1. Google Search Smoke Test** (`tests/search.test.ts`)  
-✅ Navigates to [Google.com](https://www.google.com)  
-✅ Searches for "Playwright automation"  
-✅ Verifies that search results appear  
-
-### **2. Google Images Smoke Test** (`tests/images.test.ts`)  
-✅ Navigates to [Google Images](https://images.google.com)  
-✅ Searches for "Playwright automation"  
-✅ Verifies that image results load  
-
-### **3. Google Maps Smoke Test** (`tests/maps.test.ts`)  
-✅ Navigates to [Google Maps](https://maps.google.com)  
-✅ Searches for "New York"  
-✅ Verifies that the location appears on the map  
-
 ---
 
-## ⚙️ CI/CD Integration with GitHub Actions  
+## Notes on third-party stability 
 
-This project includes **GitHub Actions CI/CD**, automatically running tests on every push or pull request.  
-
-### **Workflow File: `.github/workflows/playwright-tests.yml`**
-- **Runs tests** on every push to `main`
-- **Uploads reports** as an artifact for debugging
-
-### **Check Test Status**  
-- Go to **GitHub → Actions**  
-- Select the latest workflow run  
-- Download the **Playwright report** from "Artifacts"  
+Google may present consent or anti-bot pages. The suite first attempts Google with hardened selectors and consent handling. If a real block is detected the spec continues on DuckDuckGo for the same query, which keeps your CI green while demonstrating resilient third-party testing.
 
 ---
 
@@ -124,4 +125,3 @@ This project is open-source and free to use under the **MIT License**.
 **Aston Cook** – [LinkedIn Profile](https://www.linkedin.com/in/aston-cook/)  
 
 ---
-
