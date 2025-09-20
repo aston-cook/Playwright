@@ -9,10 +9,8 @@
     "test:grep": "cross-env GREP=@smoke playwright test",
     "report": "playwright show-report"
   },
-  "dependencies": {
-    "@playwright/test": "^1.40.0"
-  },
   "devDependencies": {
+    "@playwright/test": "^1.55.0",
     "@types/node": "^24.5.2",
     "cross-env": "^7.0.3"
   }

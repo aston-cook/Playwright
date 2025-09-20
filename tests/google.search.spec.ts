@@ -14,7 +14,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 function resultHeadingAnyEngine(page: Page) {
-  // Google h3 / role=heading variants + DuckDuckGo result titles
   return page.locator(
     'a h3, [role="heading"][aria-level="3"], #links .result__a, [data-testid="result-title-a"]'
   );
