@@ -1,30 +1,50 @@
-import { Page, expect } from "@playwright/test";
+import { Page, Locator, expect } from '@playwright/test';
+import { acceptConsentIfShown, SEARCH_INPUT } from '../utils/google';
 
 export class GoogleImagesPage {
-  constructor(private page: Page) { }
+  readonly page: Page;
+  readonly searchBox: Locator;
+  readonly suggestionList: Locator;
+  readonly resultThumbnails: Locator;
 
-  async navigate() {
-    await this.page.goto("https://images.google.com");
+  constructor(page: Page) {
+    this.page = page;
+    this.searchBox = page.locator(SEARCH_INPUT).first();
+    this.suggestionList = page
+      .locator('[role="listbox"]:visible, [data-attrid="AutocompletePrediction"]')
+      .first();
+    this.resultThumbnails = page.locator('#search img, #islrg img');
   }
 
-  async searchImage(query: string) {
-    await this.page.fill("textarea[name='q']", query);
-    await this.page.keyboard.press("Enter");
+  async goto() {
+    await this.page.goto('https://images.google.com/?hl=en&gl=us', {
+      waitUntil: 'domcontentloaded',
+    });
+    await acceptConsentIfShown(this.page);
   }
 
-  async verifyResults() {
-    await expect(this.page).toHaveURL(/.*sclient=img.*/);
+  async expectLoaded() {
+    await expect(this.searchBox).toBeVisible();
   }
 
-  async verifyImagePageLoad() {
-    await this.page.waitForSelector('textarea[name="q"]');
+  async search(query: string) {
+    await this.searchBox.fill(query);
+    await this.searchBox.press('Enter');
+    await this.page.waitForURL(/\/search\?/, { timeout: 5_000 }).catch(() => {});
   }
 
-  async typeInSearchBox(searchTerm: string) {
-    await this.page.fill('textarea[name="q"]', searchTerm);
+  /** Type character by character so autocomplete suggestions fire. */
+  async typeQuery(query: string) {
+    await this.searchBox.click();
+    await this.searchBox.pressSequentially(query, { delay: 40 });
   }
 
-  async verifySearchSuggestions() {
-    await this.page.waitForSelector('[data-attrid="AutocompletePrediction"]');
+  async expectSuggestions() {
+    await expect(this.suggestionList).toBeVisible({ timeout: 10_000 });
+  }
+
+  async expectResults() {
+    await expect(this.page).toHaveURL(/\/search\?/, { timeout: 10_000 });
+    await expect(this.resultThumbnails.first()).toBeVisible({ timeout: 15_000 });
   }
 }
