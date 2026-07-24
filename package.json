@@ -1,17 +1,22 @@
 {
   "name": "playwright-google-smoke-tests",
-  "version": "1.0.0",
-  "description": "Playwright automation for Google smoke tests using POM",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Cross-browser Playwright smoke suite for Google Search, Images, and Maps — Page Object Model, custom fixtures, CI, and resilient third-party handling",
+  "author": "Aston Cook",
+  "license": "MIT",
   "scripts": {
     "test": "playwright test",
-    "test:ui": "playwright test --ui",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:chromium": "playwright test --project=chromium",
     "test:headed": "playwright test --headed",
-    "test:grep": "cross-env GREP=@smoke playwright test",
+    "test:ui": "playwright test --ui",
+    "typecheck": "tsc --noEmit",
     "report": "playwright show-report"
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.0",
+    "@playwright/test": "^1.61.1",
     "@types/node": "^24.5.2",
-    "cross-env": "^7.0.3"
+    "typescript": "^5.9.2"
   }
 }
